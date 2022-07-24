@@ -108,28 +108,69 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     const addData = document.querySelector('form'),
-          addHeight = addData.querySelector('.calculating__choose-item');
+          addHeight = document.getElementById('height'),
+          addWeight = document.getElementById('weight'),
+          addAge = document.getElementById('age');
 
     console.log(addData);
+    let newDataHeight = '';
+    let newDataWeight = '';
+    let newDataAge = '';
 
     addData.addEventListener('submit', (event) => {
         event.preventDefault();
-
-        let newData = addHeight.value;
-        console.log(newData);
-
-
-
-
-
+        newDataHeight = addHeight.value;
+        console.log(newDataHeight);
     });
 
+    addData.addEventListener('submit', (event) => {
+        event.preventDefault();
+        newDataWeight = addWeight.value;
+        console.log(newDataWeight);
+    });
+        
+    addData.addEventListener('submit', (event) => {
+        event.preventDefault();
+        newDataAge = addAge.value;
+        console.log(newDataAge);
+        calcResult();      
+    });
+        
+    function calcResult() {
+        const Kalories = document.querySelector('div.calculating__result');
+        let result = (10 * newDataHeight) + (6.25 * newDataWeight) + (5 * newDataAge) + 5;
+        Kalories.innerHTML = `  
+            <div class="calculating__result">
+                <span> ${result} </span> ккал
+            </div> `;
+
+        console.log(result);
+        console.log(Kalories);
+        
+    }
 
 
 
 
 
+    // addData.forEach(item => {
+    //     // console.log(item);
+    //     item.addEventListener('submit', (event) => {
+    //         event.preventDefault();
+    //         let newDataHeight = '';
+    //         let newDataWeight = '';
+    //         let newDataAge = '';
 
+    //         newDataHeight = addHeight.value;
+    //         console.log(newDataHeight); 
+
+    //     });
+    // });
+
+
+
+
+    
 
 
 
