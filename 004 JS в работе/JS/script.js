@@ -47,3 +47,59 @@ wrapper.addEventListener('click', (event) => {  // Делегирование
 const btn = document.createElement('button'); // Проводим делигирование событий, добавили новую кнопку
 btn.classList.add('red');
 wrapper.append(btn);
+
+
+
+// 006 () WeakMap и WeakSet //////////////////////////////////////////////////
+
+// let user = {name: 'Ivan'};
+
+// // const arr = [user];
+// let map = new WeakMap();
+// map.set(user, 'data');
+
+// user = null;
+
+// // console.log(map.has(user));
+// console.log(map);
+
+let cache = new WeakMap();
+
+function cacheUser(user) {
+    if (!cache.has(user)) {
+        cache.set(user, Date.now());
+    }
+    
+    return cache.get(user);
+}
+
+let lena = {name: "Elena"};
+let alex = {name: 'Alex'};
+
+cacheUser(lena);
+cacheUser(alex);
+
+lena = null;
+
+console.log(cache.has(lena));
+console.log(cache.has(alex));
+
+// в WeakSet можно добавлять только объекты 
+
+// WeakSet 
+// add, has, delete
+
+
+let messages = [
+    {text: 'Hello', from: 'John'},
+    {text: 'World', from: 'Alex'},
+    {text: '....', from: 'M'},
+];
+
+let readMessagers = new WeakSet();
+
+readMessagers.add(messages[0]);
+readMessagers.add(messages[1]);
+// messages.shift();
+console.log(readMessagers.has(messages[0]));
+

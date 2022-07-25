@@ -107,6 +107,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 
+    
+
     const addData = document.querySelector('form'),
           addHeight = document.getElementById('height'),
           addWeight = document.getElementById('weight'),
