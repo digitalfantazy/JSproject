@@ -103,3 +103,32 @@ readMessagers.add(messages[1]);
 // messages.shift();
 console.log(readMessagers.has(messages[0]));
 
+
+// 007 Работа с датами //////////////////////////////////////////////////
+
+const now = new Date('2022-07-26');
+    //   new Date.parse('2022-07-26');
+// console.log(now.getFullYear()); // Год
+// console.log(now.getMonth()); // Месяц
+// console.log(now.getDate()); // День, также можно часы, минуты, секунды, миллисекунды
+// console.log(now.getDay()); // День недели 
+// console.log(now.getUTCHours()); // UTC часовой пояс 
+// console.log(now.getTimezoneOffset()); // Разница между часовым поясом и UTC ( в минутах )
+// console.log(now.getTime()); // Кол-во миллисекунд, которое прошло с 1970 года
+
+console.log(now.setHours(18)); // Установить дату, часы, день и тд 
+console.log(now);
+
+let start = new Date();
+
+for (let i = 0; i < 100000; i++) {
+    let some = i ** 3; // Возводит в степень 3 
+}
+
+let end = new Date();
+
+alert(`Циклы отработал за ${end - start} миллисекунд`);
+
+
+
+
