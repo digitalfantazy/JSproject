@@ -46,59 +46,55 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Блок с калориями
 
-    const genderItems = document.getElementById('gender'),
-          chooseItems =  genderItems.querySelectorAll('.calculating__choose-item'),
-          activityItems = document.querySelector('.calculating__choose.calculating__choose_big'),
-          chooseActivityItems = activityItems.querySelectorAll('.calculating__choose-item');
+    const btnItems = document.querySelectorAll('[data-choose]'),
+          btnItems2 = document.querySelectorAll('[data-choose1]'),
+          gender = document.getElementById('gender'),
+          activityItems = document.querySelector('.calculating__choose.calculating__choose_big');
   
-    // console.log(activityItems);
+    // console.log(btnItems2);
 
-    function buttonDeActive() {
-        chooseItems.forEach(item => {
+    function buttonDeActive(btn) {
+        btn.forEach(item => {
             item.classList.remove('calculating__choose-item_active');
         });
+    }
+
+    function buttonActive(btn, i = 0) {
+        btn[i].classList.add('calculating__choose-item_active');
+
 
     }
-    function buttonActive(i = 0) {
-        chooseItems[i].classList.add('calculating__choose-item_active');
 
-    }
-    buttonDeActive();
-    buttonActive();
-    
-
-    genderItems.addEventListener('click', (event) => {
+    gender.addEventListener('click', (event) => {
         const target = event.target;
-        if (target && target.classList.contains('calculating__choose-item')) {
-            chooseItems.forEach((item, i) => {
+        if (target && target.classList.contains('gender')) {
+            btnItems.forEach((item, i) => {
                 if (target == item) {
-                    buttonDeActive();
-                    buttonActive(i);
+                    buttonDeActive(btnItems);
+                    buttonActive(btnItems, i);
                 }
             });
         }
     });
 
-    function buttonDeActivePhysAct() {
-        chooseActivityItems.forEach(item => {
+    function buttonDeActivePhysAct(btn) {
+        btn.forEach(item => {
             item.classList.remove('calculating__choose-item_active');
         });
 
     }
-    function buttonActivePhysAct(i = 0) {
-        chooseActivityItems[i].classList.add('calculating__choose-item_active');
+    function buttonActivePhysAct(btn, i = 0) {
+        btn[i].classList.add('calculating__choose-item_active');
 
     }
-    buttonDeActivePhysAct();
-    buttonDeActivePhysAct();
 
     activityItems.addEventListener('click', (event) => {
         const target = event.target;
-        if (target && target.classList.contains('calculating__choose-item')) {
-            chooseActivityItems.forEach((item, i) => {
+        if (target && target.classList.contains('physAct')) {
+            btnItems2.forEach((item, i) => {
                 if (target == item) {
-                    buttonDeActivePhysAct();
-                    buttonActivePhysAct(i);
+                    buttonDeActivePhysAct(btnItems2);
+                    buttonActivePhysAct(btnItems2, i);
                     
                 }
             });
@@ -112,7 +108,7 @@ window.addEventListener('DOMContentLoaded', () => {
           addWeight = document.getElementById('weight'),
           addAge = document.getElementById('age');
 
-    console.log(addData);
+    // console.log(addData);
     let newDataHeight = '';
     let newDataWeight = '';
     let newDataAge = '';
@@ -120,32 +116,33 @@ window.addEventListener('DOMContentLoaded', () => {
     addData.addEventListener('submit', (event) => {
         event.preventDefault();
         newDataHeight = addHeight.value;
-        console.log(newDataHeight);
+        // console.log(newDataHeight);
     });
 
     addData.addEventListener('submit', (event) => {
         event.preventDefault();
         newDataWeight = addWeight.value;
-        console.log(newDataWeight);
+        // console.log(newDataWeight);
     });
         
     addData.addEventListener('submit', (event) => {
         event.preventDefault();
         newDataAge = addAge.value;
-        console.log(newDataAge);
+        // console.log(newDataAge);
         calcResult();      
     });
-        
+    
+    const Kalories = document.querySelector('div.calculating__result');
+    Kalories.innerHTML = ``;
     function calcResult() {
-        const Kalories = document.querySelector('div.calculating__result');
         let result = (10 * newDataHeight) + (6.25 * newDataWeight) + (5 * newDataAge) + 5;
         Kalories.innerHTML = `  
             <div class="calculating__result">
                 <span> ${result} </span> ккал
             </div> `;
 
-        console.log(result);
-        console.log(Kalories);
+        // console.log(result);
+        // console.log(Kalories);
         
     }
 
@@ -215,9 +212,56 @@ window.addEventListener('DOMContentLoaded', () => {
 
     setClock('.timer', deadLine);
 
+    // ModalWindow
+
+    const modaltrigger = document.querySelectorAll('[data-modal]'),
+          modalClose = document.querySelector('[data-close]'),
+          modal = document.querySelector('.modal');
+    
+    function openModal() {
+        modal.classList.add('show');
+        modal.classList.remove('hide');
+        document.body.style.overflow = 'hidden';
+        clearInterval(modalTimer);
+    }     
+
+    modaltrigger.forEach(btn => {
+        btn.addEventListener('click', openModal); 
+    });
+
+    function closeModal() {
+        modal.classList.add('hide');
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (event) => {
+        if(event.target == modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.code === "Escape" && modal.classList.contains('show')) {
+            closeModal();
+        }
+    });
+
+    const modalTimer = setInterval(openModal, 10000);
+
+    function showModalScroll() {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+            openModal();
+            window.removeEventListener('scroll', showModalScroll);
+        }
+    }
+
+    window.addEventListener('scroll', showModalScroll);
 
 
-
+    
 
 
 

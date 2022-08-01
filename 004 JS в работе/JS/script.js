@@ -127,7 +127,34 @@ for (let i = 0; i < 100000; i++) {
 
 let end = new Date();
 
-alert(`Циклы отработал за ${end - start} миллисекунд`);
+// alert(`Циклы отработал за ${end - start} миллисекунд`);
+
+
+// 014 Функции-конструкторы //////////////////////////////////////////////////
+
+function User(name, id) {
+    this.name = name;
+    this.id = id;
+    this.human = true;
+    this.hello = function() {
+        console.log(`Hello ${this.name}`);
+    };
+}
+
+User.prototype.exit = function() { // Добавили новое свойство
+    console.log(`Пользователь ${this.name} ушел`);
+};
+
+
+const ivan = new User('Ivan', 28);
+const kate = new User('Kate', 20);
+
+ivan.exit();
+ivan.hello();
+kate.hello();
+
+console.log(ivan);
+console.log(kate);
 
 
 

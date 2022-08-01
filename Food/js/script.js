@@ -5,8 +5,8 @@
 window.addEventListener('DOMContentLoaded', () => {
     // Tabs
     const tabs = document.querySelectorAll('.tabheader__item'),
-          tabsContent = document.querySelectorAll('.tabcontent'),
-          tabsParent = document.querySelector('.tabheader__items');
+        tabsContent = document.querySelectorAll('.tabcontent'),
+        tabsParent = document.querySelector('.tabheader__items');
 
     function hideTabContent() {
         tabsContent.forEach(item => {
@@ -21,7 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function ShowTabContent(i = 0) {
-        tabsContent[i].classList.add('show' , 'fade');// добавляем класс show для таба на который кликнули
+        tabsContent[i].classList.add('show', 'fade'); // добавляем класс show для таба на который кликнули
         tabsContent[i].classList.remove('hide'); // убираем класс hide для таба на который кликнули
         tabs[i].classList.add('tabheader__item_active'); // Добавили подсвечивание 
     }
@@ -43,12 +43,12 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // Timer
-    
+
     const deadLine = '2022-08-11';
 
     function getTimerRemaining(endtime) { //
-        let days, hours, minutes, seconds; 
-        const t = Date.parse(endtime) - Date.parse(new Date());// Разница между двумя датами в миллисекундах
+        let days, hours, minutes, seconds;
+        const t = Date.parse(endtime) - Date.parse(new Date()); // Разница между двумя датами в миллисекундах
 
         if (t <= 0) {
             days = 0;
@@ -57,9 +57,9 @@ window.addEventListener('DOMContentLoaded', () => {
             seconds = 0;
         } else {
             days = Math.floor(t / (1000 * 60 * 60 * 24)), // Math.floor() - округление до ближайшего целого
-            hours = Math.floor((t / (1000 * 60 * 60) % 24 )), // % Берем остаток от деления на 24 (хвостик), чтобы получить часы, которые должны быть меньше 24 
+            hours = Math.floor((t / (1000 * 60 * 60) % 24)), // % Берем остаток от деления на 24 (хвостик), чтобы получить часы, которые должны быть меньше 24 
             minutes = Math.floor((t / 1000 / 60) % 60), // тоже самое с минутами, не больше 60 
-            seconds = Math.floor((t / 1000) % 60); 
+            seconds = Math.floor((t / 1000) % 60);
         }
 
         return {
@@ -79,7 +79,7 @@ window.addEventListener('DOMContentLoaded', () => {
             return num;
         }
     }
-        
+
 
     function setClock(selector, endtime) { // Добавляем таймер на страницу
         const timer = document.querySelector(selector),
@@ -87,8 +87,8 @@ window.addEventListener('DOMContentLoaded', () => {
               hours = timer.querySelector('#hours'),
               minutes = timer.querySelector('#minutes'),
               seconds = timer.querySelector('#seconds'),
-              timeInterval = setInterval(updateClock, 1000);  // Функция будет запускаться через каждую секунду
-        
+              timeInterval = setInterval(updateClock, 1000); // Функция будет запускаться через каждую секунду
+
         updateClock(); // Вызываем тут, Чтобы убрать мигание таймера при обновлении страницы (не выводились данные с верстки)     
 
         function updateClock() {
@@ -114,13 +114,17 @@ window.addEventListener('DOMContentLoaded', () => {
           modalClose = document.querySelector('[data-close]'),
           modal = document.querySelector('.modal');
 
+    function openModal() {
+        modal.classList.add('show');
+        modal.classList.remove('hide');
+        document.body.style.overflow = 'hidden'; // Не позволяет прокручивать страницу, когда открыто модальное окно
+        clearInterval(modalTimerId); // Чтобы оно не высвечивалось постоянно, только один раз или когда пользователь уже нажал на кнопку
+    }
+
     modalTrigger.forEach(btn => {
-        btn.addEventListener('click', (event) => {
-            modal.classList.add('show');
-            modal.classList.remove('hide');
-            document.body.style.overflow = 'hidden'; // Не позволяет прокручивать страницу, когда открыто модальное окно
-        });
+        btn.addEventListener('click', openModal);
     });
+
 
     // modalClose.addEventListener('click', () => {
     //     modal.classList.add('hide');
@@ -129,18 +133,19 @@ window.addEventListener('DOMContentLoaded', () => {
     // });
 
     modalClose.addEventListener('click', closeModal);
- 
 
-    modal.addEventListener('click', (event) => { // При клике на подложку окон закрывается 
+
+    modal.addEventListener('click', (event) => { // При клике на подложку окно закрывается 
         if (event.target === modal) {
             closeModal();
         }
     });
 
+
     function closeModal() {
         modal.classList.add('hide');
         modal.classList.remove('show');
-        document.body.style.overflow = ''; 
+        document.body.style.overflow = '';
     }
 
     document.addEventListener('keydown', (event) => {
@@ -149,10 +154,17 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const modalTimerId = setTimeout(openModal, 5000); // Через 5 секунд вызовет модальное окно
 
-
-
-
+    function ShowModalByScroll() {
+            if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) { // Сравниваем прокрутку, которая справа и контент который мы видим, складываем, если сумма будет больше чем с полным сайтом который у нас открыт
+                openModal();    // Если условие выполняется, означает что пользователь долистал страницу
+                window.removeEventListener('scroll',ShowModalByScroll);
+            }
+    }
+    window.addEventListener('scroll',ShowModalByScroll);
+       
+   
 
 
 
