@@ -156,6 +156,126 @@ kate.hello();
 console.log(ivan);
 console.log(kate);
 
+// 015 Контекст вызова. This //////////////////////////////////////////////////
+
+// 1) Обычная функция: this = window, но если стоит user strict - undefined
+
+function showThis(a, b) {
+    // console.log(this);
+    function sum() {
+        // console.log(this); // Тут тоже зависит от use strict 
+        return a + b;
+    } 
+    console.log(sum());
+}
+showThis(4, 5);
+
+// 2) Контекст у методов объекта - сам объект
+
+const obj = {
+    a: 20,
+    b: 15,
+    sum: function() {
+        console.log(this); // Если мы пропишем ещё одну функцию внутри, то вернёмся к первому случаю (Потеряем контекст вызова)
+    }
+};
+
+obj.sum();
+
+// 3) this в конструкторах и классах - это новый экземпляр объекта 
+
+// function User(name, id) {
+//     this.name = name;
+//     this.id = id;
+//     this.human = true;
+//     this.hello = function() {
+//         console.log(`Hello ${this.name}`);
+//     };
+// }
+
+// let ivan = new User('Ivan', 23);
+
+// 4) Ручная привязка this: call, apply, bind
+
+function sayName(surname) {
+    // console.log(this);
+    // console.log(this.name + surname);
+}
+
+const user = {
+    name: 'John'
+};
+
+sayName.call(user, 'Smith');
+sayName.apply(user, ['Smith']);
+
+
+function count(num) {
+    // return this*num;
+}
+
+const double = count.bind(2); // Создаем новую функцию и под неё подвязывает контекст
+console.log(double(3));
+console.log(double(13));
 
 
 
+
+const button = document.querySelector('.green');
+
+button.addEventListener('click', function() { // когда обработчик события написан в обычном режиме ( function() ), то контекст вызова будет сам элемент на котором произошло событие = event.target
+    this.style.backgroundColor = 'red'; // Если стрелочная функция, то теряется контекст вызова
+});
+
+const obj1 = {
+    num: 5,
+    sayNumber: function() {
+        const say = () => { // У стрелочной функции нет своего контекста вызова, она берёт контекст у своего родителя
+            console.log(this);
+        };
+        say();
+    }
+};
+
+obj1.sayNumber();
+
+
+const double1 = a => a * 2;
+console.log(double1(4));
+
+
+// 016 Классы (ES6) //////////////////////////////////////////////////
+
+class Rectangle {
+    constructor(height, width) {
+        this.height = height;
+        this.width = width;
+    }
+
+    calcArea() {
+        return this.height * this.width;
+    }
+}
+
+class ColoredRectangleWithText extends Rectangle { // Наследовали из класса выше
+    constructor(height, width, text, bgColor) {
+        super(height, width); // Вызывает тоже самое что бы у родителя, должна быть в начале
+        this.text = text;
+        this.bgColor = bgColor;
+    }
+
+    showMyProps() {
+        console.log(`Текст: ${this.text}, цвет: ${this.bgColor}`);
+    }
+}
+
+const div = new ColoredRectangleWithText(25, 10, 'Hello', 'red');
+div.showMyProps();
+console.log(div.calcArea());
+
+
+// const square = new Rectangle(10, 10);
+// const long = new Rectangle(20, 100);
+
+// console.log(long.calcArea());
+// console.log(square.calcArea());
