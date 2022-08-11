@@ -279,3 +279,16 @@ console.log(div.calcArea());
 
 // console.log(long.calcArea());
 // console.log(square.calcArea());
+
+// 019 Rest оператор и параметры по умолчанию (ES6) //////////////////////////////////////////////////
+// Если spread берёт сущность и раскладывает её на отдельные элементы, то rest отдельные элементы объединяет в один массив
+const log = function(a, b, ...rest) {
+    console.log(a, b, rest);
+};
+log('basic', 'rest', 'operator', 'usage');
+
+
+function calcOrDouble(number, basis = 2) { // Если не будет задейтсвованна basis, то по умолчанию будет 2
+    console.log(number * basis);
+}
+calcOrDouble(3);
