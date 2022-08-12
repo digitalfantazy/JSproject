@@ -236,7 +236,21 @@ window.addEventListener('DOMContentLoaded', () => {
         'menu__item'
     ).render();
 
+    // Формы отправки данных
 
+    const forms = document.querySelectorAll('form');
+    // console.log(forms);
+
+    function postData(form) {
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+
+            const formData = new FormData(form); // 7:20
+        });
+    }
 
 
 
