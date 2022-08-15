@@ -16,7 +16,7 @@ inputRub.addEventListener('input', () => {
 
     request.addEventListener('readystatechange', () => {
         if (request.readyState === 4 && request.status === 200) {
-                // console.log(request.response);
+                console.log(request.response);
             const data = JSON.parse(request.response); // Переводм в JS-формат данные от сервера
             inputUSD.value = (+inputRub.value / data.current.usd).toFixed(2); // Выводим данные на странице (с 2-мя знаками после запятой)
         } else {
