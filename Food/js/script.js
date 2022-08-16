@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Timer
 
-    const deadLine = '2022-08-11';
+    const deadLine = '2022-08-30';
 
     function getTimerRemaining(endtime) { //
         let days, hours, minutes, seconds;
@@ -259,7 +259,7 @@ window.addEventListener('DOMContentLoaded', () => {
             let statusMessage = document.createElement('img');
             statusMessage.src = message.loading; // Подгрузка картинки, вместо текста
             statusMessage.style.cssText = `
-                display; block;
+                display: block;
                 margin: 0 auto;
             `;
             // statusMessage.textContent = message.loading;
