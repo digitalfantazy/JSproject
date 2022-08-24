@@ -264,33 +264,49 @@ window.addEventListener('DOMContentLoaded', () => {
             `;
             // statusMessage.textContent = message.loading;
             // form.append(statusMessage);
+
             form.insertAdjacentElement('afterend', statusMessage);
 
-            const request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-            request.setRequestHeader('Content-type', 'application/json'); // С formData не работает
+
             const formData = new FormData(form); // FormData - формирует данные ключ-значение
 
-            const object = {};
+            const object = {}; // Для работы с JSON форматом 
             formData.forEach(function(value, key) {
                 object[key] = value;
             });
             
-            const json = JSON.stringify(object);
-            request.send(json);
 
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThanksModal(message.success);
-                    form.reset(); // Очищаем поля после того как ввели 
-                    // setTimeout(() => { // убираем надпись после о результате (Убрали потому что добавили окно благодарности )
-                        statusMessage.remove();
-                    // },5000);
-                } else { 
-                    showThanksModal(message.failure);
-                }
+            fetch('server.php', { // Возвращает promise 
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(object)
+            })
+            .then(data => data.text()) // Текстовый ответ от сервера 
+            .then(data => { // data - ответ от сервера 
+                console.log(data);
+                showThanksModal(message.success);
+                // setTimeout(() => { // убираем надпись после о результате (Убрали потому что добавили окно благодарности )
+                statusMessage.remove();
+            }).catch(() => {
+                showThanksModal(message.failure);
+            }).finally(() => {
+                form.reset(); // Очищаем поля после того как ввели 
             });
+
+            // request.addEventListener('load', () => {
+            //     if (request.status === 200) {
+            //         console.log(request.response);
+            //         showThanksModal(message.success);
+            //         form.reset(); // Очищаем поля после того как ввели 
+            //         // setTimeout(() => { // убираем надпись после о результате (Убрали потому что добавили окно благодарности )
+            //             statusMessage.remove();
+            //         // },5000);
+            //     } else { 
+            //         showThanksModal(message.failure);
+            //     }
+            // });
         });
     }
 
@@ -318,9 +334,17 @@ window.addEventListener('DOMContentLoaded', () => {
             prevModalDialog.classList.remove('hide');
             closeModal();
         },5000);
-
     }
 
+    // fetch('https://jsonplaceholder.typicode.com/posts', { // (Пример) fetch запрос, лучше чем XMLHTTP запрос
+    //     method: "POST",
+    //     body: JSON.stringify({name: 'Alex'}),
+    //     headers: {
+    //         'Content-type': 'application/json'
+    //     }
+    // })
+    // .then(response => response.json())
+    // .then(json => console.log(json));
 
 
 

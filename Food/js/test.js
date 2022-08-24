@@ -350,12 +350,12 @@ window.addEventListener('DOMContentLoaded', () => {
             `;
             form.insertAdjacentElement('afterend', statusMessage);
 
-            const request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-            request.setRequestHeader('Content-type', 'application/json');
-            // console.log(request.responseText);
+            // const request = new XMLHttpRequest();
+            // request.open('POST', 'server.php');
+            // request.setRequestHeader('Content-type', 'application/json');
+            // // console.log(request.responseText);
             
-            const formData = new FormData(form);
+            const formData = new FormData(form); // FormData - формирует данные ключ-значение
 
             const object = {};
             formData.forEach(function(key, value) {
@@ -363,22 +363,44 @@ window.addEventListener('DOMContentLoaded', () => {
             });
             // console.log(object);
 
-            const json = JSON.stringify(object);
+            // const json = JSON.stringify(object);
             // console.log(object);
-            request.send(json);
-
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThanksModal(message.success);
-                    form.reset();
-                    // setTimeout(() => {
-                        statusMessage.remove();
-                    // },4000);
-                } else {
-                    showThanksModal(message.failure);
-                }
+            fetch('server.php', {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(object)
+            })
+            .then(data => data.text())
+            .then(data => {
+                console.log(data);
+                showThanksModal(message.success);
+                // form.reset(); // Очищаем поля после того как ввели 
+                // setTimeout(() => { // убираем надпись после о результате (Убрали потому что добавили окно благодарности )
+                    statusMessage.remove();
+                // },5000);
+            }).catch(() => {
+                showThanksModal(message.failure);
+            }).finally(() => {
+                form.reset(); // Очищаем поля после того как ввели 
             });
+
+
+            // request.send(json);
+
+            // request.addEventListener('load', () => {
+            //     if (request.status === 200) {
+            //         console.log(request.response);
+            //         showThanksModal(message.success);
+            //         form.reset(); // Очищаем поля после того как ввели 
+            //         // setTimeout(() => { // убираем надпись после о результате (Убрали потому что добавили окно благодарности )
+            //             statusMessage.remove();
+            //         // },5000);
+            //     } else {
+            //         showThanksModal(message.failure);
+            //     }
+            // });
         });
     }
 
