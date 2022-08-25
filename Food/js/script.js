@@ -274,7 +274,7 @@ window.addEventListener('DOMContentLoaded', () => {
             formData.forEach(function(value, key) {
                 object[key] = value;
             });
-            
+            // console.log(object);
 
             fetch('server.php', { // Возвращает promise 
                 method: "POST",
@@ -295,6 +295,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 form.reset(); // Очищаем поля после того как ввели 
             });
 
+            // Старый способ
             // request.addEventListener('load', () => {
             //     if (request.status === 200) {
             //         console.log(request.response);
@@ -346,7 +347,9 @@ window.addEventListener('DOMContentLoaded', () => {
     // .then(response => response.json())
     // .then(json => console.log(json));
 
-
+    fetch('http://localhost:3000/menu')
+        .then(data => data.json())
+        .then(res => console.log(res));
 
 
 
