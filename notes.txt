@@ -1,2 +1,4 @@
 Если скачиваем проект и нам нужно уставить пакеты, то просто (npm i)
 Если есть package.json
+
+Чтобы запустить json-server: npx json-server db.json
