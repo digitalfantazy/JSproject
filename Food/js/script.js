@@ -44,7 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Timer
 
-    const deadLine = '2022-09-20';
+    const deadLine = '2022-12-31';
 
     function getTimerRemaining(endtime) { //
         let days, hours, minutes, seconds;
@@ -57,9 +57,9 @@ window.addEventListener('DOMContentLoaded', () => {
             seconds = 0;
         } else {
             days = Math.floor(t / (1000 * 60 * 60 * 24)), // Math.floor() - округление до ближайшего целого
-                hours = Math.floor((t / (1000 * 60 * 60) % 24)), // % Берем остаток от деления на 24 (хвостик), чтобы получить часы, которые должны быть меньше 24 
-                minutes = Math.floor((t / 1000 / 60) % 60), // тоже самое с минутами, не больше 60 
-                seconds = Math.floor((t / 1000) % 60);
+            hours = Math.floor((t / (1000 * 60 * 60) % 24)), // % Берем остаток от деления на 24 (хвостик), чтобы получить часы, которые должны быть меньше 24 
+            minutes = Math.floor((t / 1000 / 60) % 60), // тоже самое с минутами, не больше 60 
+            seconds = Math.floor((t / 1000) % 60);
         }
 
         return {
@@ -83,11 +83,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function setClock(selector, endtime) { // Добавляем таймер на страницу
         const timer = document.querySelector(selector),
-            days = timer.querySelector('#days'),
-            hours = timer.querySelector('#hours'),
-            minutes = timer.querySelector('#minutes'),
-            seconds = timer.querySelector('#seconds'),
-            timeInterval = setInterval(updateClock, 1000); // Функция будет запускаться через каждую секунду
+              days = timer.querySelector('#days'),
+              hours = timer.querySelector('#hours'),
+              minutes = timer.querySelector('#minutes'),
+              seconds = timer.querySelector('#seconds'),
+              timeInterval = setInterval(updateClock, 1000); // Функция будет запускаться через каждую секунду
 
         updateClock(); // Вызываем тут, Чтобы убрать мигание таймера при обновлении страницы (не выводились данные с верстки)     
 
@@ -459,11 +459,20 @@ window.addEventListener('DOMContentLoaded', () => {
         dots.push(dot);
     }
 
+    function deleteNotDigits(str) {
+        return +str.replace(/\D/g, '');
+    }
+
+    function activeButton(dot) { // Подсвечивание активной кнопки
+        dot.forEach(dot => dot.style.opacity = '.5');
+        dot[slideIndex - 1].style.opacity = 1;
+    }
+
     next.addEventListener('click', () => {
-        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) { // '500px' Нужно отрезать 'px' 
+        if (offset == deleteNotDigits(width) * (slides.length - 1)) { // '500px' Нужно отрезать 'px' 
             offset = 0;
         } else {
-            offset += +width.slice(0, width.length - 2);
+            offset += +deleteNotDigits(width);
         }
 
         slidesField.style.transform = `translateX(-${offset}px)`;
@@ -480,15 +489,16 @@ window.addEventListener('DOMContentLoaded', () => {
             current.textContent = slideIndex;
         }
 
-        dots.forEach(dot => dot.style.opacity = '.5'); // Подсвечивание активной кнопки
-        dots[slideIndex - 1].style.opacity = 1;
+        activeButton(dots);
+        // dots.forEach(dot => dot.style.opacity = '.5'); // Подсвечивание активной кнопки
+        // dots[slideIndex - 1].style.opacity = 1;
     });
 
     prev.addEventListener('click', () => {
         if (offset == 0) { // 
-            offset = +width.slice(0, width.length - 2) * (slides.length - 1); // Смещение на последний слайд
+            offset = deleteNotDigits(width) * (slides.length - 1); // Смещение на последний слайд
         } else {
-            offset -= +width.slice(0, width.length - 2);
+            offset -= deleteNotDigits(width);
         }
 
         slidesField.style.transform = `translateX(-${offset}px)`;
@@ -505,8 +515,9 @@ window.addEventListener('DOMContentLoaded', () => {
             current.textContent = slideIndex;
         }
 
-        dots.forEach(dot => dot.style.opacity = '.5');
-        dots[slideIndex - 1].style.opacity = 1;
+        activeButton(dots);
+        // dots.forEach(dot => dot.style.opacity = '.5');
+        // dots[slideIndex - 1].style.opacity = 1;
     });
 
     dots.forEach(dot => {
@@ -514,7 +525,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const slideTo = event.target.getAttribute('data-slide-to');
 
             slideIndex = slideTo;
-            offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+            offset = deleteNotDigits(width) * (slideTo - 1);
 
             slidesField.style.transform = `translateX(-${offset}px)`;
 
@@ -524,8 +535,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 current.textContent = slideIndex;
             }
 
-            dots.forEach(dot => dot.style.opacity = '.5');
-            dots[slideIndex - 1].style.opacity = 1;
+            activeButton(dots);
+            // dots.forEach(dot => dot.style.opacity = '.5');
+            // dots[slideIndex - 1].style.opacity = 1;
 
         });
     });
@@ -573,6 +585,8 @@ window.addEventListener('DOMContentLoaded', () => {
     //     plusSlides(1);
     // });
           
+
+
 
 
 
