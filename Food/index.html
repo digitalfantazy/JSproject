@@ -142,30 +142,28 @@
                 <div class="calculating__subtitle">
                     Ваш пол
                 </div>
-                <div class="calculating__choose"  id="gender">
-                    <div data-choose class="gender calculating__choose-item calculating__choose-item_active">Женщина</div>
-                    <div data-choose class="gender calculating__choose-item">Мужчина</div>
+                <div class="calculating__choose" id="gender">
+                    <div id="female" class="calculating__choose-item calculating__choose-item_active">Женщина</div>
+                    <div id="male" class="calculating__choose-item">Мужчина</div>
                 </div>
 
                 <div class="calculating__subtitle">
                     Ваша конституция
                 </div>
-                <div>
-                    <form class="calculating__choose calculating__choose_medium">
-                        <input type="text" id="height" placeholder="Введите рост" class="calculating__choose-item">
-                        <input type="text" id="weight" placeholder="Введите вес"  class="calculating__choose-item">
-                        <input type="text" id="age" placeholder="Введите возраст" class="calculating__choose-item">
-                        <button class="calculating__choose-item">Подтвердить</button>
-                    </form>
+                <div class="calculating__choose calculating__choose_medium">
+                    <input type="text" id="height" placeholder="Введите рост" class="calculating__choose-item">
+                    <input type="text" id="weight" placeholder="Введите вес"  class="calculating__choose-item">
+                    <input type="text" id="age" placeholder="Введите возраст" class="calculating__choose-item">
                 </div>
+
                 <div class="calculating__subtitle">
                     Выберите вашу физическая активность
                 </div>
                 <div class="calculating__choose calculating__choose_big">
-                    <div data-choose1 id="low" class="physAct calculating__choose-item">Низкая активность </div>
-                    <div data-choose1 id="small"  class="physAct calculating__choose-item calculating__choose-item_active">Невысокая активность</div>
-                    <div data-choose1 id="medium" class="physAct calculating__choose-item">Умеренная активность</div>
-                    <div data-choose1 id="high" class="physAct calculating__choose-item">Высокая активность</div>
+                    <div data-ratio="1.2" id="low" class="calculating__choose-item">Низкая активность </div>
+                    <div data-ratio="1.375" id="small"  class="calculating__choose-item calculating__choose-item_active">Невысокая активность</div>
+                    <div data-ratio="1.55" id="medium" class="calculating__choose-item">Умеренная активность</div>
+                    <div data-ratio="1.725" id="high" class="calculating__choose-item">Высокая активность</div>
                 </div>
 
                 <div class="calculating__divider"></div>
